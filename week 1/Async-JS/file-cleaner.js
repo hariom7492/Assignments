@@ -10,9 +10,12 @@ const fs = require('fs');
 
 function cleanFile(filePath) {
   try {
+        const data = await fs.readFile('./test.txt', 'utf8');
+        const modifiedContent = data.replace(/\s+/g, ' ');
 
-
-  } catch (error) {
+        await fs.writeFile('./test.txt', modifiedContent, 'utf8');
+        console.log("Updated successfully");
+    } catch (error) {
     console.error('Error cleaning the file:', error.message);
   }
 }
