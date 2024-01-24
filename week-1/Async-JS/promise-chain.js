@@ -1,73 +1,95 @@
-/*
- * Write 3 different functions that return promises that resolve after t1, t2, and t3 seconds respectively.
- * Write a function that sequentially calls all 3 of these functions in order.
- * Return a promise chain which return the time in milliseconds it takes to complete the entire operation.
- * Compare it with the results from 3-promise-all.js
- */
-
-function one(t) {
+async function wait1(t) {
     return new Promise((resolve, reject) => {
-        if(t>=0){
+      if (t >= 0) {
         setTimeout(() => {
-            // console.log("One function");
-            
-            resolve(t);
+          resolve("The total time for wait1 is::" + t);
         }, t);
-        }else{
-            reject("error funcino 1");
-            // return;
-        }
+      } else {
+        reject("error or time is not defined for timeout for wait1");
+      }
     });
-}
-
-async function two(t) {
+  }
+  async function wait2(t) {
     return new Promise((resolve, reject) => {
-        if(t>=0){
+      if (t >= 0) {
         setTimeout(() => {
-            // console.log("second function");
-            
-            resolve(t);
+          resolve("The total time for wait2 is::" + t);
         }, t);
-    }else{
-        reject("error funcino 2");
-        // return;
-    }
+      } else {
+        reject("error or time is not defined for timeout for wait2");
+      }
     });
-}
-async function three(t) {
+  }
+  
+ async function wait3(t) {
     return new Promise((resolve, reject) => {
-        if(t>=0){
+      if (t >=0) {
         setTimeout(() => {
-            // console.log("third function");
-            
-            resolve(t);
+          resolve("The total time for wait3 is::" + t);
         }, t);
-    }else{
-        reject("errro fucntion 3");
-        // return;
-    }
-    
+      } else {
+        reject("error or time is not defined for timeout for wait 3");
+      }
     });
-}
-function calculateTime(t, t1, t2) {
-    
-    const startTime = Date.now();
+  
+ }
 
-    return one(t)
-        .then(() => two(t1))
-        .then(() => three(t2))
-        .then(() => {
-            const endTime = Date.now();
-            // console.log(endTime);
-            const totalTime = endTime - startTime;
-            // console.log(`Total time taken: ${totalTime} milliseconds`);
-            return totalTime;
-        })
-        .catch((error) => {
-            // Handle errors if any promise is rejected
-            console.error("Error:", error);
-            return error;
-        });
-}
+//  async function calculateTime(t1, t2, t3) {
+//   const startTime=Date.now();
+//    return wait1(t1)
+//     .then((data1) => {
+//       // console.log("waitting for work 1:::");
+//       // console.log(data1);
+//       //console.log("waitting for work 2:::");
+//       wait2(t2)
+//         .then((data2) => {
+//           //console.log(data2);
+//           //console.log("waitting for work 3:::");
+//           wait3(t3)
+//             .then((data3) => {
+//               //console.log(data3);
+//               // console.log("total time for the program is::");
+//               // console.log(t1 + t2 + t3);
+//               const endTime=Date.now();
+//              // console.log("total time  to execute the entire program is :",(endTime-startTime)) 
+//               return endTime-startTime; 
 
-module.exports = calculateTime;
+//             })
+//             .catch((error) => {
+//               console.log(error);
+//             });
+//         })
+//         .catch((error) => {
+//           console.log(error);
+//         });
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// }
+// //  calculateTime(1000,2000,3000);
+ async function calculateTime11(t1,t2,t3){
+  const startTime=Date.now();
+  try {
+    console.log("waiting for wait 1");
+     await wait1(t1).then((data)=>{
+      console.log(data);
+     });
+     console.log("waiting for wait 2");
+     await wait2(t2).then((data)=>{
+      console.log(data);}); 
+     console.log("waiting for wait 3");
+     await wait3(t3).then((data)=>{
+      console.log(data);}); 
+     const endTime = Date.now();
+     console.log("total time of the entire program is::",endTime - startTime)
+     return endTime - startTime;
+   } catch (error) {
+     console.log(error);
+   }
+}
+//calculateTime11(1000,0,3000);
+module.exports = {
+  testEnvironment:'node',
+  moduleFileExtensions:['js','json','jsx'],
+  calculateTime11};

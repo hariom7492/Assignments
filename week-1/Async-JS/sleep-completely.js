@@ -4,19 +4,17 @@
  * the function should return a promise just like before
  */
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-async function Tutor(time) {
-    if(time>=0){
-       var startTime = Date.now();
-       for (let i = 1; i <4 ; i++) {        
-          await sleep(time);
-          var endTime = Date.now();
-          return endTime-startTime;
-       }
-    }else{
-       return 0;
-    }
-  }
-module.exports = Tutor;
+function sleep(milliseconds) {
+   return new Promise(resolve => {
+     setTimeout(resolve, milliseconds);
+   });
+ }
+ async function example(milliseconds) {
+   console.log('Start sleeping');
+   console.log(`wait sleeping time is ${milliseconds} milliseconds`)
+   await sleep(milliseconds); 
+   console.log('End sleeping');
+ }
+ example(5000);
+ module.exports = sleep;
+   
