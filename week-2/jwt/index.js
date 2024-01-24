@@ -15,7 +15,7 @@ const jwtPassword = 'secret';
  */
 function signJwt(username, password) {
     // Validate email format for the username
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /[\\w_\\-\\.]+[@]+[a-z]+[\\.]+[a-z]{3}/;
     if (!emailRegex.test(username)) {
       return null; // Invalid email format
     }
