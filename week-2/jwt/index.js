@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 const jwtPassword = 'secret';
 
 
@@ -13,26 +14,40 @@ const jwtPassword = 'secret';
  *                        Returns null if the username is not a valid email or
  *                        the password does not meet the length requirement.
  */
-function signJwt(username, password) {
-    // Validate email format for the username
-    const emailRegex = /[\\w_\\-\\.]+[@]+[a-z]+[\\.]+[a-z]{3}/;
-    if (!emailRegex.test(username)) {
-      return null; // Invalid email format
-    }
+todos = [];
+function signJwt(Inputusername, password) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
   
-    // Validate password length
-    if (password.length < 6) {
-      return null; // Password too short
+    if(password.length>6 &&  emailRegex.test(Inputusername)){
+      const todos = JSON.parse(fs.readFileSync('./index.json','utf-8'));
+      console.log(typeof todos)
+      // todos=JSON.parse(data);
+      
+      console.log(todos);
+      const usernameIndex = todos.findIndex((todo)=>todo.username === Inputusername)
+      console.log(usernameIndex);
+      console.log(todos[usernameIndex]);
+      if(todos[usernameIndex].password===password){
+        const payload = { Inputusername, password };
+        const token = jwt.sign(payload, jwtPassword);
+          console.log("success");
+        return token;
+      }
+      else{
+        console.log("fail");
+      }
     }
-  
+    else{
+      return null;
+    }
+
     // Generate JWT using the provided username and password
-    const payload = { username, password };
-    const token = jwt.sign(payload, jwtPassword);
-  
-    return token;
+    
   }
   
-
+var d = signJwt("sachin123@gmail.com","sachin1234");
+console.log(d);
 /**
  * Verifies a JWT using a secret key.
  *
