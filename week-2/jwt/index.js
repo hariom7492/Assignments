@@ -14,8 +14,24 @@ const jwtPassword = 'secret';
  *                        the password does not meet the length requirement.
  */
 function signJwt(username, password) {
-  // Your code here
-}
+    // Validate email format for the username
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(username)) {
+      return null; // Invalid email format
+    }
+  
+    // Validate password length
+    if (password.length < 6) {
+      return null; // Password too short
+    }
+  
+    // Generate JWT using the provided username and password
+    const payload = { username, password };
+    const token = jwt.sign(payload, jwtPassword);
+  
+    return token;
+  }
+  
 
 /**
  * Verifies a JWT using a secret key.
@@ -26,8 +42,15 @@ function signJwt(username, password) {
  *                    using the secret key.
  */
 function verifyJwt(token) {
-  // Your code here
-}
+    try {
+      // Verify the token using the secret key
+      jwt.verify(token, jwtPassword);
+      return true; // Token is valid
+    } catch (err) {
+      return false; // Token is invalid, expired, or not verified
+    }
+  }
+  
 
 /**
  * Decodes a JWT to reveal its payload without verifying its authenticity.
@@ -37,8 +60,15 @@ function verifyJwt(token) {
  *                         Returns false if the token is not a valid JWT format.
  */
 function decodeJwt(token) {
-  // Your code here
-}
+    try {
+      // Decode the payload without verifying authenticity
+      const decodedPayload = jwt.decode(token);
+      return decodedPayload; // Return decoded payload
+    } catch (err) {
+      return false; // Token is not a valid JWT format
+    }
+  }
+  
 
 
 module.exports = {
