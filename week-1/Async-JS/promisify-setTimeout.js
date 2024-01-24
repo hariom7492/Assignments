@@ -1,27 +1,34 @@
 /*
-    Write a function that returns a promise that resolves after n seconds have passed, where n is passed as an argument to the function.
-*/
-
-function wait(n) {
-    // if (!Number.isInteger(n)) {
-    //     console.log("Error: The argument must be an integer.");
-    //     return;
-    // }
-    var startTime = Date.now();
-    return new Promise((resolve, reject) => {
-        setTimeout(()=>{
-            // var error = true;
-            // const variable = typeof(n1)
+     Write a function that returns a promise that resolves after n seconds have passed, where n is passed as an argument to the function.
+ */
+     async function wait(n) {
+        return  new Promise((resolve, reject) => {
+          if (n >= 0) {
+            setTimeout(() => {
+              resolve(`the promise is resolved in ${n} milliseconds`);
+            }, n);
+          } else {
+            reject(`The Promise is rejected `);
+          }
+        });
+      }
+      async function calculateTime(n) {
+        const startTime = Date.now();
+         return await wait(n)
+          .then((data) => {
+           console.log(data);
             const endTime = Date.now();
-            resolve(endTime-startTime);
-        },n)
-        // console.log("running...")
-    }).then((data)=>{
-        // console.log("code executed in : "+data);
-        return data;
-    }).catch((err)=>{
-        console.log(err);
-    })
-}
-
-module.exports = wait;
+           console.log(endTime - startTime);
+            return endTime - startTime;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+      
+      module.exports = {
+        testEnvironment: "node",
+        moduleFileExtensions: ["js", "json", "jsx"],
+        calculateTime,
+      };
+     
