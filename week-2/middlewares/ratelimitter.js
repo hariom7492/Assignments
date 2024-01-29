@@ -12,8 +12,20 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
+app.use((req,res,next)=>{
+  const userId = req.headers('user-id');
+  numberOfRequestsForUser[userId] = numberOfRequestsForUser[userId] || 0;
+  if(numberOfRequestsForUser[userId]>=5){
+    return res.status(404).json({error:"rate limiter"});
+  }
+  numberOfRequestsForUser[userId]++;
+  setTimeout(()=>{
+    numberOfRequestsForUser[userId]=0;
+  },1000);
+  next();
+});
 setInterval(() => {
-  numberOfRequestsForUser = {};
+  numberOfRequestsForUser = 0;
 }, 1000)
 
 app.get('/user', function(req, res) {
